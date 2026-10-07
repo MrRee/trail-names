@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ hiker.trail_name }} — Trail Names{% endblock %}
+{% block content %}
+<section class="pagehead">
+  <p><a class="quiet" href="{{ url_for('index') }}">&larr; Back to directory</a></p>
+</section>
+<div class="profilecard">
+  <h1>{{ hiker.trail_name }}</h1>
+  <dl>
+    {% if hiker.real_name %}<dt>Real name</dt><dd>{{ hiker.real_name }}</dd>{% endif %}
+    {% set labels = trail_labels(hiker.trails) %}
+    {% if labels %}<dt>Trails</dt><dd>{{ labels|join(', ') }}</dd>{% endif %}
+    {% if hiker.trail_custom %}<dt>Other trail</dt><dd>{{ hiker.trail_custom }}</dd>{% endif %}
+    {% if hiker.years %}<dt>Year(s)</dt><dd>{{ hiker.years }}</dd>{% endif %}
+    {% if hiker.location %}<dt>Location</dt><dd>{{ hiker.location }}</dd>{% endif %}
+    {% if hiker.bio %}<dt>Bio</dt><dd>{{ hiker.bio }}</dd>{% endif %}
+    {% if hiker.link %}<dt>Link</dt><dd><a href="{{ hiker.link }}" rel="noopener" target="_blank">{{ hiker.link }}</a></dd>{% endif %}
+  </dl>
+  <p style="margin-top:1.4rem"><a class="btn" href="{{ url_for('contact', hiker_id=hiker.id) }}">Send {{ hiker.trail_name }} a message</a></p>
+  <p class="hint">Messages go through a contact form. Email addresses stay private.</p>
+  {% if support_url %}
+  <p class="supportline">Trail Names is forever free.<br>If it helped you find someone, consider <a href="{{ support_url }}" target="_blank" rel="noopener">chipping in</a> &#x2615;</p>
+  {% endif %}
+</div>
+{% endblock %}

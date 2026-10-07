@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Email confirmed{% endblock %}
+{% block content %}
+<h1>Email confirmed &#x2705;</h1>
+<p><strong>{{ hiker.trail_name }}</strong> is now listed in the
+<a href="{{ url_for('index') }}">directory</a>. Happy trails!</p>
+{% endblock %}

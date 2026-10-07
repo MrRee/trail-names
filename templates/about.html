@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<section class="pagehead">
+<p class="eyebrow">About</p>
+<h1>Find each other after the trail ends</h1>
+</section>
+<p>On long through-hikes, hikers earn a <em>trail name</em> — sometimes funny,
+sometimes mysterious, always a story. This directory helps hikers find each
+other after the trail ends.</p>
+<ul>
+  <li><strong>Register</strong> your trail name with a contact email.</li>
+  <li><strong>Search</strong> by trail name, trail, year, or location.</li>
+  <li><strong>Message</strong> a hiker through a contact form — email addresses
+      are never shown publicly.</li>
+</ul>
+<p>Share a trail name with another hiker? You're in good company — names
+get passed around out there like good trail magic, so duplicates are
+welcome here. The trail, years, and hometown on each entry will help you
+tell who's who. And if you ever need to fix anything on your own entry,
+the “Edit my entry” link at the bottom of the page will get you there.
+Be kind out there.</p>
+
+<section class="creator">
+  <img src="{{ about_photo }}" alt="The creator of Trail Names">
+  <div>
+    <h2>About the creator</h2>
+    {% for p in about_paragraphs %}
+      <p>{{ p }}</p>
+    {% endfor %}
+    <p><a class="btn" href="{{ url_for('creator_contact') }}">Get in touch</a></p>
+  </div>
+</section>
+{% endblock %}

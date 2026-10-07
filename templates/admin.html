@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+<h1>Admin</h1>
+<p><a href="{{ url_for('admin_content', token=token) }}">Edit site content</a>
+<span class="hint">— about text, photo, support link, contact email</span></p>
+<p class="hint">
+  SMTP: {{ 'configured' if smtp_configured else 'not configured (emails logged to outbox/)' }} &middot;
+  Email verification: {{ 'on' if verification_on else 'off' }}
+</p>
+
+<h2>Hikers ({{ hikers|length }})</h2>
+<table class="admin">
+  <tr><th>Trail name</th><th>Email</th><th>Verified</th><th>Actions</th></tr>
+  {% for h in hikers %}
+  <tr>
+    <td><a href="{{ url_for('profile', hiker_id=h.id) }}">{{ h.trail_name }}</a></td>
+    <td class="mono">{{ h.email }}</td>
+    <td>{{ 'yes' if h.verified else 'no' }}</td>
+    <td class="actions">
+      {% if not h.verified %}
+      <form method="post" action="{{ url_for('admin_verify', hiker_id=h.id) }}" style="display:inline">
+        <input type="hidden" name="token" value="{{ token }}">
+        <button type="submit" class="small">Verify</button>
+      </form>
+      {% endif %}
+      <form method="post" action="{{ url_for('admin_delete', hiker_id=h.id) }}" style="display:inline"
+            onsubmit="return confirm('Delete {{ h.trail_name }}?')">
+        <input type="hidden" name="token" value="{{ token }}">
+        <button type="submit" class="small danger">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Recent messages</h2>
+{% if messages %}
+<table class="admin">
+  <tr><th>To</th><th>From</th><th>Message</th><th>When</th></tr>
+  {% for m in messages %}
+  <tr>
+    <td>{{ m.trail_name }}</td>
+    <td>{{ m.sender_name }}<br><span class="mono">{{ m.sender_email }}</span></td>
+    <td>{{ m.body[:160] }}{% if m.body|length > 160 %}&hellip;{% endif %}</td>
+    <td>{{ m.created_at }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p class="hint">No messages yet.</p>
+{% endif %}
+{% endblock %}

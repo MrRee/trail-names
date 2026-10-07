@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Trail Names Directory{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Trail Register</p>
+  <h1>Who did you meet out there?</h1>
+  <p class="lede">Look up the trail name you remember. Contact stays private until they choose to reply.</p>
+</section>
+
+<form class="searchcard" method="get" action="{{ url_for('index') }}">
+  <div class="searchrow">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round">
+      <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+    </svg>
+    <input type="text" name="q" value="{{ q }}" placeholder="Search a trail name..." autocomplete="off">
+  </div>
+  <div class="filters">
+    <label>Trail
+      <select name="trail" onchange="this.form.submit()">
+        <option value="">Any trail</option>
+        {% for code, name in trails %}
+          <option value="{{ code }}" {% if trail == code %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Year
+      <select name="year" onchange="this.form.submit()">
+        <option value="">Any year</option>
+        {% for y in range(2026, 1989, -1) %}
+          <option value="{{ y }}" {% if year == y|string %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label class="full">Last known around
+      <input type="text" name="location" value="{{ location }}" placeholder="Any place" autocomplete="off">
+    </label>
+  </div>
+  <div class="searchactions">
+    {% if q or trail or year or location %}
+      <a class="clearlink" href="{{ url_for('index') }}">Clear search</a>
+    {% endif %}
+    <button type="submit">Search</button>
+  </div>
+</form>
+
+<section>
+  <div class="registerhead">
+    <h2>The register</h2>
+    <span class="count">{{ total }} trail name{{ 's' if total != 1 }}</span>
+  </div>
+  {% if hikers %}
+    <ul class="hikerlist">
+    {% for h in hikers %}
+      <li>
+        <a class="hikerrow" href="{{ url_for('profile', hiker_id=h.id) }}">
+          <span class="avatar">{{ h.trail_name[0]|upper }}</span>
+          <span class="hikername">{{ h.trail_name }}
+            {% set labels = trail_labels(h.trails) %}
+            {% if labels or h.years or h.location %}
+              <span class="hikermeta">{% if labels %}{{ labels|join(', ') }}{% endif %}{% if h.years %}{% if labels %} &middot; {% endif %}{{ h.years }}{% endif %}{% if h.location %}{% if labels or h.years %} &middot; {% endif %}{{ h.location }}{% endif %}{% if h.trail_custom %}{% if labels or h.years or h.location %} &middot; {% endif %}{{ h.trail_custom }}{% endif %}</span>
+            {% endif %}
+          </span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+    {% if not searching and shown < match_count %}
+      <p class="showmore"><a href="{{ url_for('index', show=next_show) }}">Show more names</a></p>
+    {% endif %}
+  {% else %}
+    <p class="empty">No hikers match. <a href="{{ url_for('register') }}">Be the first to add yours.</a></p>
+  {% endif %}
+</section>
+{% endblock %}

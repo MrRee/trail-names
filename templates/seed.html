@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Seed data — Trail Names{% endblock %}
+{% block content %}
+<section class="pagehead">
+  <p><a class="quiet" href="{{ url_for('admin', token=token) }}">&larr; Back to admin</a></p>
+  <h1>Seed data</h1>
+</section>
+<div class="profilecard">
+  {% if inserted is not none %}
+    <p>Inserted <strong>{{ inserted }}</strong> fake hikers. They are marked as seed data
+    and appear in the directory so you can test search.</p>
+    <p>Try the <a href="{{ url_for('index') }}">directory search</a>: filter by name
+    (try "bear" or "sun"), trail, year, or location.</p>
+    <form method="post" action="{{ url_for('admin_unseed') }}" style="margin-top:1.4rem">
+      <input type="hidden" name="token" value="{{ token }}">
+      <button type="submit" class="danger">Remove all seed data</button>
+    </form>
+  {% elif removed is not none %}
+    <p>Removed <strong>{{ removed }}</strong> seed hikers. The directory is clean again.</p>
+    <p><a class="btn" href="{{ url_for('index') }}">Back to directory</a></p>
+  {% endif %}
+  <p class="hint" style="margin-top:1.2rem">These routes are temporary and admin-only.
+  The seed hikers use <code>@seed.trailnames.club</code> emails, never receive mail,
+  and are the only rows the remove button deletes.</p>
+</div>
+{% endblock %}

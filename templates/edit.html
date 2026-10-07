@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Edit your entry{% endblock %}
+{% block content %}
+<section class="pagehead">
+  <p class="eyebrow">Edit my entry</p>
+  <h1>{{ hiker.trail_name }}</h1>
+  <p class="lede">Contact email on file: <strong>{{ hiker.email }}</strong>
+  <span class="hint">never shown publicly</span>. To change the email
+  itself, <a href="{{ url_for('creator_contact') }}">contact the site</a>.</p>
+</section>
+
+<form method="post" class="formcard">
+  <label>Trail name *
+    <input type="text" name="trail_name" required maxlength="60"
+      value="{{ values['trail_name'] }}">
+  </label>
+  <label>Real name <span class="hint">optional</span>
+    <input type="text" name="real_name" maxlength="80"
+      value="{{ values['real_name'] }}">
+  </label>
+  <fieldset>
+    <legend>Trails hiked</legend>
+    <div class="checks">
+    {% for code, name in trails %}
+      <label class="check"><input type="checkbox" name="trails" value="{{ code }}"
+        {% if code in selected %}checked{% endif %}> {{ name }}</label>
+    {% endfor %}
+    </div>
+  </fieldset>
+  <label>Other trail <span class="hint">not listed above? type it here</span>
+    <input type="text" name="trail_custom" maxlength="120"
+      value="{{ values['trail_custom'] }}">
+  </label>
+  <label>Year(s) <span class="hint">e.g. 2022 or 2021, 2023</span>
+    <input type="text" name="years" maxlength="40"
+      value="{{ values['years'] }}">
+  </label>
+  <label>Location <span class="hint">home state / country, optional</span>
+    <input type="text" name="location" maxlength="80"
+      value="{{ values['location'] }}">
+  </label>
+  <label>Bio <span class="hint">a line or two, max 500 characters</span>
+    <textarea name="bio" rows="3" maxlength="500">{{ values['bio'] }}</textarea>
+  </label>
+  <label>Link <span class="hint">blog, Instagram, etc. — must start with http(s)://</span>
+    <input type="url" name="link" maxlength="200"
+      value="{{ values['link'] }}">
+  </label>
+  <button type="submit">Save changes</button>
+</form>
+{% endblock %}

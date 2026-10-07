@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Add your trail name{% endblock %}
+{% block content %}
+<section class="pagehead">
+  <p class="eyebrow">Join the register</p>
+  <h1>Add your trail name</h1>
+  <p class="lede">Your email stays hidden. People reach you through a contact form.</p>
+</section>
+
+<form method="post" class="formcard">
+  {% if duplicate_email %}
+  <p class="hint">Already listed with that email?
+    <a href="{{ url_for('edit_request') }}">Edit your existing entry</a>
+    instead — one entry per email address.</p>
+  {% endif %}
+  <label>Trail name * <span class="hint">sharing a name with another hiker is fine</span>
+    <input type="text" name="trail_name" required maxlength="60" placeholder="e.g. Two-Step">
+  </label>
+  <label>Contact email * <span class="hint">never shown publicly</span>
+    <input type="email" name="email" required placeholder="you@example.com">
+  </label>
+  <label>Real name <span class="hint">optional</span>
+    <input type="text" name="real_name" maxlength="80">
+  </label>
+  <fieldset>
+    <legend>Trails hiked</legend>
+    <div class="checks">
+    {% for code, name in trails %}
+      <label class="check"><input type="checkbox" name="trails" value="{{ code }}"> {{ name }}</label>
+    {% endfor %}
+    </div>
+  </fieldset>
+  <label>Other trail <span class="hint">not listed above? type it here</span>
+    <input type="text" name="trail_custom" maxlength="120" placeholder="e.g. Camino del Norte">
+  </label>
+  <label>Year(s) <span class="hint">e.g. 2022 or 2021, 2023</span>
+    <input type="text" name="years" maxlength="40">
+  </label>
+  <label>Location <span class="hint">home state / country, optional</span>
+    <input type="text" name="location" maxlength="80">
+  </label>
+  <label>Bio <span class="hint">a line or two, max 500 characters</span>
+    <textarea name="bio" rows="3" maxlength="500"></textarea>
+  </label>
+  <label>Link <span class="hint">blog, Instagram, etc. — must start with http(s)://</span>
+    <input type="url" name="link" maxlength="200">
+  </label>
+  <!-- honeypot, keep empty -->
+  <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off">
+  <button type="submit">Add my trail name</button>
+</form>
+{% endblock %}

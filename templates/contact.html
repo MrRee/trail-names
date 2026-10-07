@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Message {{ hiker.trail_name }}{% endblock %}
+{% block content %}
+<section class="pagehead">
+<h1>Message {{ hiker.trail_name }}</h1>
+<p class="lede">Your email is only shared so they can reply. It is never published.</p>
+</section>
+
+<form method="post" class="formcard">
+  <label>Your name *
+    <input type="text" name="sender_name" required maxlength="80">
+  </label>
+  <label>Your email *
+    <input type="email" name="sender_email" required>
+  </label>
+  <label>Message *
+    <textarea name="body" rows="6" required maxlength="2000"
+      placeholder="Were you on the PCT in 2023? I think we shared a shelter near..."></textarea>
+  </label>
+  <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off">
+  <button type="submit">Send message</button>
+</form>
+{% endblock %}

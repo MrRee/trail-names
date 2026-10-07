@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Site content{% endblock %}
+{% block content %}
+<section class="pagehead">
+<p class="eyebrow">Admin</p>
+<h1>Site content</h1>
+<p class="lede">Edit the About page text, photo, and links. Changes go live immediately — no redeploy needed.</p>
+</section>
+
+<form method="post" class="formcard" enctype="multipart/form-data">
+  <input type="hidden" name="token" value="{{ token }}">
+  <label>About text
+    <textarea name="about_text" rows="6" maxlength="2000">{{ about_text }}</textarea>
+  </label>
+  <label>About photo <span class="hint">JPG, PNG, or WebP, under 8 MB</span>
+    <input type="file" name="about_photo" accept=".jpg,.jpeg,.png,.webp">
+  </label>
+  <p><img src="{{ about_photo }}" alt="Current about photo" class="adminphoto"></p>
+  <label class="check"><input type="checkbox" name="reset_photo" value="1"> Reset to the default photo</label>
+  <label>Support link <span class="hint">your Ko-fi or Buy Me a Coffee URL — leave empty to hide the Support link</span>
+    <input type="url" name="support_url" maxlength="200" value="{{ support_url }}" placeholder="https://ko-fi.com/...">
+  </label>
+  <label>Contact email <span class="hint">where creator-contact messages are sent (never shown publicly)</span>
+    <input type="email" name="contact_email" maxlength="120" value="{{ contact_email }}">
+  </label>
+  <button type="submit">Save changes</button>
+</form>
+<p style="margin-top:1rem"><a class="quiet" href="{{ url_for('about') }}">View the About page</a> &middot; <a class="quiet" href="{{ url_for('admin', token=token) }}">Back to admin</a></p>
+{% endblock %}

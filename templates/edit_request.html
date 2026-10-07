@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Edit my entry{% endblock %}
+{% block content %}
+<section class="pagehead">
+  <p class="eyebrow">Edit my entry</p>
+  <h1>Update your listing</h1>
+  <p class="lede">Enter the email you registered with and we'll send you a
+  link to edit your entry. No password — the link is the key.</p>
+</section>
+
+<form method="post" class="formcard">
+  <label>Contact email *
+    <input type="email" name="email" required placeholder="you@example.com">
+  </label>
+  <!-- honeypot, keep empty -->
+  <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off">
+  <button type="submit">Email me an edit link</button>
+</form>
+{% endblock %}

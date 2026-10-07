@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}You're in{% endblock %}
+{% block content %}
+<h1>You're in the directory &#x1F332;</h1>
+{% if emailed %}
+<p>We sent a confirmation link to your email. Click it and your trail name goes live.</p>
+{% else %}
+<p>Your trail name is live in the <a href="{{ url_for('index') }}">directory</a>.</p>
+{% endif %}
+{% endblock %}

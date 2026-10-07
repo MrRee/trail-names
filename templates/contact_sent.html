@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Message sent{% endblock %}
+{% block content %}
+<h1>Message sent &#x1F4E9;</h1>
+<p>Your message is on its way to <strong>{{ hiker.trail_name }}</strong>.
+If they reply, it'll come straight to your email.</p>
+<p><a href="{{ url_for('profile', hiker_id=hiker.id) }}">Back to profile</a></p>
+{% endblock %}

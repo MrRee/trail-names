@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Trail Names{% endblock %}</title>
+<link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+<link rel="icon" href="{{ url_for('static', filename='favicon-32.png') }}" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="brand" href="{{ url_for('index') }}" aria-label="Trail Names home"><span class="brandbar" aria-hidden="true"></span><span class="brandname">Trail Names</span></a>
+    <nav class="pillnav">
+      <a href="{{ url_for('index') }}" class="{% if request.endpoint in ['index', 'profile', 'contact'] %}active{% endif %}">Find hikers</a>
+      <a href="{{ url_for('register') }}" class="{% if request.endpoint in ['register', 'registered'] %}active{% endif %}">Add your name</a>
+    </nav>
+  </div>
+</div>
+<main class="wrap">
+  {% with msgs = get_flashed_messages() %}
+    {% if msgs %}
+      <div class="flash">
+        {% for m in msgs %}<p>{{ m }}</p>{% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>
+  <div class="wrap">
+    <span>A directory of hiker trail names. Emails are never shown publicly.</span>
+    <nav class="footernav">
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('creator_contact') }}">Contact</a>
+      <a href="{{ url_for('edit_request') }}">Edit my entry</a>
+      {% if support_url %}<a href="{{ support_url }}" target="_blank" rel="noopener">&#x2615; Support</a>{% endif %}
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
